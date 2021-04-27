@@ -13,44 +13,91 @@ namespace WorkTime
 {
     public partial class frmMain : Form
     {
-        //System.Threading.Timer timer;
+        public string Login 
+        { 
+            get 
+            { 
+                return this.txtLogin.Text; 
+            } 
+            set 
+            { 
+                this.txtLogin.Text = value; 
+            } 
+        }
+        public string Password
+        {
+            get
+            {
+                return this.txtPassword.Text;
+            }
+            set
+            {
+                this.txtPassword.Text = value;
+            }
+        }
+        public string ConfirmPassword
+        {
+            get
+            {
+                return this.txtConfirmPassword.Text;
+            }
+            set
+            {
+                this.txtConfirmPassword.Text = value;
+            }
+        }
+        public int Hours
+        {
+            get
+            {
+                return (int)this.numHours.Value;
+            }
+            set
+            {
+                this.numHours.Value = value;
+            }
+        }
+        public int Minutes
+        {
+            get
+            {
+                return (int)this.numMinutes.Value;
+            }
+            set
+            {
+                this.numMinutes.Value = value;
+            }
+        }
 
         public frmMain()
         {
             InitializeComponent();
-            
-
             btnCancel.Click += BtnCancel_Click;
-            btnStart.Click += BtnStart_Click;
+            checkBoxMore.CheckedChanged += CheckBoxMore_CheckedChanged;
         }
 
-        private void MnuSettings_Click(object sender, EventArgs e)
+        private void CheckBoxMore_CheckedChanged(object sender, EventArgs e)
         {
-
-        }
-
-        private void BtnStart_Click(object sender, EventArgs e)
-        {
-           //timer = new System.Threading.Timer(TimerCallbackFunc,
-           //     null, 5000, 0);
-
-        }
-
-
-        private void TimerCallbackFunc(object args)
-        {
-            MessageBox.Show("Time is over", "Work Time");
-            //timer.Dispose();
+            if(sender is CheckBox cb)
+            {
+                if (cb.Checked == true)
+                {
+                    Size newSize = new Size(this.Width * 2, this.Height);
+                    this.MaximumSize = newSize;
+                    this.Size = newSize;
+                }
+                else
+                {
+                    Size newSize = new Size(this.Width / 2, this.Height);
+                    this.MaximumSize = newSize;
+                    this.Size = newSize;
+                }
+            }
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
-
-        private void ContextMenuNotify_Opening(object sender, CancelEventArgs e)
-        {
-
+            
         }
     }
 }

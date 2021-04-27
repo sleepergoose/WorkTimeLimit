@@ -2,28 +2,54 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.Serialization.Formatters.Binary;
+
+/* 
+ * TODO: New check system
+ * TODO: Add commentaries
+ */
+
 
 namespace WorkTime
 {
     static class Program
     {
         static System.Threading.Timer timer;
-        static System.Windows.Forms.NotifyIcon notifyIcon;
-        static System.Windows.Forms.ContextMenuStrip NotifyContextMenu;
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
+        static Stoper stoper;
+        static NotifyIcon notifyIcon;
+        static ContextMenuStrip NotifyContextMenu;
+
         [MTAThread]
         static void Main()
         {
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
+            StartSettings();
             Displaynotify();
             Application.Run();
+        }
 
+        static void StartSettings()
+        {
+            using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                stoper = (Stoper)bf.Deserialize(fs);
+            }
+            if(stoper.FinalTime < DateTime.Now)
+            {
+                stoper.FinalTime = DateTime.Now.AddMinutes(stoper.TimeSpan.TotalMinutes);
+                using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    bf.Serialize(fs, stoper);
+                }
+            }
+            timer = new System.Threading.Timer(TimerCallbackFunc, null, stoper.TimeSpan, TimeSpan.FromMilliseconds(0));
         }
 
 
@@ -67,7 +93,7 @@ namespace WorkTime
                     BalloonTipIcon = ToolTipIcon.Info,
                     ContextMenuStrip = NotifyContextMenu
                 };
-                notifyIcon.ShowBalloonTip(100);
+                //notifyIcon.ShowBalloonTip(100);
                
             }
             catch (Exception ex)
@@ -78,11 +104,39 @@ namespace WorkTime
 
         static void mnuExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Task task = new Task(() => {
+                frmInput LoginDialog = new frmInput();
+                LoginDialog.ShowDialog();
+
+                if (LoginDialog.DialogResult == DialogResult.OK
+                    && LoginDialog.Login == stoper.Login
+                    && LoginDialog.Password == stoper.Password)
+                {
+                    Application.Exit();
+                }
+            });
+            task.Start();
         }
         static void mnuStart_Click(object sender, EventArgs e)
         {
+            using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Read))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                stoper = (Stoper)bf.Deserialize(fs);
+            }
+            frmInput LoginDialog = new frmInput();
+            if (LoginDialog.ShowDialog() == DialogResult.OK 
+                && LoginDialog.Login == stoper.Login 
+                && LoginDialog.Password == stoper.Password)
+            {
+                timer = new System.Threading.Timer(TimerCallbackFunc, null, stoper.TimeSpan, TimeSpan.FromMilliseconds(0));
+            }     
+        }
 
+        static void TimerCallbackFunc(object args)
+        {
+            MessageBox.Show("Time is over", "Work Time");
+            timer.Dispose();
         }
         static void mnuSettings_Click(object sender, EventArgs e)
         {
@@ -90,33 +144,80 @@ namespace WorkTime
                 frmInput LoginDialog = new frmInput();
                 LoginDialog.ShowDialog();
 
-                if (LoginDialog.DialogResult == DialogResult.OK
-                    && LoginDialog.txtPassword.Text == ""
-                    && LoginDialog.txtLogin.Text == "")
+                frmMain form = new frmMain();
+                using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Read))
                 {
-                    frmMain form = new frmMain();
-                    using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Read))
+                    try
                     {
-                        byte[] buffer = new byte[2];
-                        fs.Read(buffer, 0, 2);
-                        form.numHours.Value = buffer[0];
-                        form.numMinutes.Value = buffer[1];
+                        BinaryFormatter bf = new BinaryFormatter();
+                        stoper = (Stoper)bf.Deserialize(fs);
+                        (form.Hours, form.Minutes) = stoper.GetTimeSeparate();
+                        (form.Login, form.Password, form.ConfirmPassword) =
+                            stoper.GetLoginAndPassword();
                     }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"It was impossible to read data from file\n {ex.Message}");
+                    }
+                }
+
+                if (LoginDialog.DialogResult == DialogResult.OK
+                    && LoginDialog.Login == stoper.Login
+                    && LoginDialog.Password == stoper.Password)
+                {
                     form.ShowDialog();
 
                     if (form.DialogResult == DialogResult.OK)
                     {
-                        using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Write))
+                        if(form.Password == form.ConfirmPassword)
                         {
-                            byte[] buffer = new byte[2];
-                            buffer[0] = (byte)form.numHours.Value;
-                            buffer[1] = (byte)form.numMinutes.Value;
-                            fs.Write(buffer, 0, 2);
+                            using (FileStream fs = new FileStream("sys.set", FileMode.OpenOrCreate, FileAccess.Write))
+                            {
+                                stoper.Parse((int)form.Hours, (int)form.Minutes);
+                                stoper.Login = form.Login;
+                                stoper.Password = form.Password;
+                                BinaryFormatter bf = new BinaryFormatter();
+                                bf.Serialize(fs, stoper);
+                            }
                         }
                     }
                 }
             });
             task.Start();
+        }
+    }
+
+    [Serializable]
+    class Stoper
+    {
+        public TimeSpan TimeSpan { get; set; }
+        public DateTime FinalTime { get; set; }
+        public string Login { get; set; } = "";
+        public string Password { get; set; } = "";
+
+        public Stoper() {}
+
+        public Stoper(string login, string password)
+        {
+            this.Login = login;
+            this.Password = password;
+        }
+
+        public TimeSpan Parse(int hours, int minutes)
+        {
+            TimeSpan = TimeSpan.FromMinutes(hours * 60d + minutes);
+            FinalTime = DateTime.Now.AddMinutes(TimeSpan.TotalMinutes);
+            return TimeSpan;
+        }
+
+        public (int, int) GetTimeSeparate()
+        {
+            return ((int)TimeSpan.Hours, (int)(TimeSpan.Minutes));
+        }
+
+        public (string, string, string) GetLoginAndPassword()
+        {
+            return (Login, Password, Password);
         }
     }
 }

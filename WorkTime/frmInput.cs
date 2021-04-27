@@ -14,5 +14,29 @@ namespace WorkTime
         {
             InitializeComponent();
         }
+
+        public string Login
+        {
+            get
+            {
+                return this.txtLogin.Text;
+            }
+            set
+            {
+                this.txtLogin.Text = value;
+            }
+        }
+
+        public string Password
+        {
+            get
+            {
+                return this.txtPassword.Text;
+            }
+            set
+            {
+                this.txtPassword.Text = value;
+            }
+        }
     }
 }

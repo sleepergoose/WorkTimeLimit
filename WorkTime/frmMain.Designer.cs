@@ -29,29 +29,21 @@ namespace WorkTime
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnStart = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.numMinutes = new System.Windows.Forms.NumericUpDown();
             this.numHours = new System.Windows.Forms.NumericUpDown();
-            this.btnStop = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.checkBoxMore = new System.Windows.Forms.CheckBox();
+            this.txtLogin = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.txtConfirmPassword = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHours)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnStart
-            // 
-            this.btnStart.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnStart.Location = new System.Drawing.Point(8, 111);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(60, 25);
-            this.btnStart.TabIndex = 0;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -61,7 +53,7 @@ namespace WorkTime
             this.groupBox1.Controls.Add(this.numHours);
             this.groupBox1.Location = new System.Drawing.Point(9, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(242, 103);
+            this.groupBox1.Size = new System.Drawing.Size(231, 103);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
@@ -70,7 +62,7 @@ namespace WorkTime
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label2.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label2.Location = new System.Drawing.Point(16, 61);
+            this.label2.Location = new System.Drawing.Point(10, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 19);
             this.label2.TabIndex = 8;
@@ -81,7 +73,7 @@ namespace WorkTime
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.label1.Location = new System.Drawing.Point(16, 27);
+            this.label1.Location = new System.Drawing.Point(10, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 19);
             this.label1.TabIndex = 9;
@@ -90,7 +82,7 @@ namespace WorkTime
             // numMinutes
             // 
             this.numMinutes.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numMinutes.Location = new System.Drawing.Point(100, 56);
+            this.numMinutes.Location = new System.Drawing.Point(97, 56);
             this.numMinutes.Maximum = new decimal(new int[] {
             59,
             0,
@@ -98,13 +90,13 @@ namespace WorkTime
             0});
             this.numMinutes.Name = "numMinutes";
             this.numMinutes.Size = new System.Drawing.Size(121, 26);
-            this.numMinutes.TabIndex = 7;
+            this.numMinutes.TabIndex = 1;
             this.numMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // numHours
             // 
             this.numHours.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.numHours.Location = new System.Drawing.Point(100, 22);
+            this.numHours.Location = new System.Drawing.Point(97, 22);
             this.numHours.Maximum = new decimal(new int[] {
             23,
             0,
@@ -112,7 +104,7 @@ namespace WorkTime
             0});
             this.numHours.Name = "numHours";
             this.numHours.Size = new System.Drawing.Size(121, 26);
-            this.numHours.TabIndex = 6;
+            this.numHours.TabIndex = 0;
             this.numHours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numHours.Value = new decimal(new int[] {
             3,
@@ -120,34 +112,60 @@ namespace WorkTime
             0,
             0});
             // 
-            // btnStop
-            // 
-            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnStop.Location = new System.Drawing.Point(69, 111);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(60, 25);
-            this.btnStop.TabIndex = 0;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(192, 111);
+            this.btnCancel.Location = new System.Drawing.Point(128, 111);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(60, 25);
-            this.btnCancel.TabIndex = 0;
+            this.btnCancel.Size = new System.Drawing.Size(112, 25);
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(131, 111);
+            this.btnOK.Location = new System.Drawing.Point(9, 111);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(60, 25);
+            this.btnOK.Size = new System.Drawing.Size(113, 25);
             this.btnOK.TabIndex = 2;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMore
+            // 
+            this.checkBoxMore.AutoSize = true;
+            this.checkBoxMore.Location = new System.Drawing.Point(243, 9);
+            this.checkBoxMore.Name = "checkBoxMore";
+            this.checkBoxMore.Size = new System.Drawing.Size(48, 19);
+            this.checkBoxMore.TabIndex = 3;
+            this.checkBoxMore.Text = "Less";
+            this.checkBoxMore.UseVisualStyleBackColor = true;
+            // 
+            // txtLogin
+            // 
+            this.txtLogin.Location = new System.Drawing.Point(292, 27);
+            this.txtLogin.Name = "txtLogin";
+            this.txtLogin.PlaceholderText = "Login";
+            this.txtLogin.Size = new System.Drawing.Size(232, 23);
+            this.txtLogin.TabIndex = 4;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(292, 61);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.PlaceholderText = "Password";
+            this.txtPassword.Size = new System.Drawing.Size(232, 23);
+            this.txtPassword.TabIndex = 5;
+            // 
+            // txtConfirmPassword
+            // 
+            this.txtConfirmPassword.Location = new System.Drawing.Point(292, 95);
+            this.txtConfirmPassword.Name = "txtConfirmPassword";
+            this.txtConfirmPassword.PasswordChar = '*';
+            this.txtConfirmPassword.PlaceholderText = "Confirm password";
+            this.txtConfirmPassword.Size = new System.Drawing.Size(232, 23);
+            this.txtConfirmPassword.TabIndex = 6;
             // 
             // frmMain
             // 
@@ -156,11 +174,13 @@ namespace WorkTime
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(260, 141);
+            this.Controls.Add(this.txtConfirmPassword);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.txtLogin);
+            this.Controls.Add(this.checkBoxMore);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnStop);
-            this.Controls.Add(this.btnStart);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(276, 180);
@@ -176,20 +196,22 @@ namespace WorkTime
             ((System.ComponentModel.ISupportInitialize)(this.numMinutes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHours)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnCancel;
-        public System.Windows.Forms.NumericUpDown numMinutes;
-        public System.Windows.Forms.NumericUpDown numHours;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.CheckBox checkBoxMore;
+        private System.Windows.Forms.NumericUpDown numMinutes;
+        private System.Windows.Forms.NumericUpDown numHours;
+        private System.Windows.Forms.TextBox txtLogin;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtConfirmPassword;
     }
 }
 

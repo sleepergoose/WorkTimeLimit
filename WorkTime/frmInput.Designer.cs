@@ -43,7 +43,7 @@ namespace WorkTime
             this.btnOk.Location = new System.Drawing.Point(15, 80);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 0;
+            this.btnOk.TabIndex = 2;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
@@ -52,7 +52,7 @@ namespace WorkTime
             this.btnCancel.Location = new System.Drawing.Point(96, 80);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -63,7 +63,7 @@ namespace WorkTime
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.PlaceholderText = "Password";
             this.txtPassword.Size = new System.Drawing.Size(156, 23);
-            this.txtPassword.TabIndex = 2;
+            this.txtPassword.TabIndex = 1;
             // 
             // txtLogin
             // 
@@ -71,7 +71,7 @@ namespace WorkTime
             this.txtLogin.Name = "txtLogin";
             this.txtLogin.PlaceholderText = "Login";
             this.txtLogin.Size = new System.Drawing.Size(156, 23);
-            this.txtLogin.TabIndex = 3;
+            this.txtLogin.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -114,7 +114,7 @@ namespace WorkTime
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.GroupBox groupBox1;
-        public System.Windows.Forms.TextBox txtPassword;
-        public System.Windows.Forms.TextBox txtLogin;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtLogin;
     }
 }
